@@ -1,0 +1,4 @@
+*.pyc
+dist/
+cabot_alert_http.egg-info/
+*.sw?
