@@ -35,7 +35,7 @@ class TestHttpStatusCheckPlugin(LocalTestCase):
         super(TestHttpStatusCheckPlugin, self).setUp()
 
         self.http_check_model, created = StatusCheckPluginModel.objects.get_or_create(
-	    slug='http_status'
+	    slug='cabot_check_http'
 	    )
 
         self.http_check = StatusCheck.objects.create(

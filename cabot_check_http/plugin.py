@@ -18,7 +18,6 @@ class HttpStatusCheckForm(forms.Form):
     # HTTP checks
     endpoint = forms.CharField(
         help_text='HTTP(S) endpoint to poll.',
-        required=False
     )
     username = forms.CharField(
         help_text='Basic auth username.',
@@ -26,23 +25,26 @@ class HttpStatusCheckForm(forms.Form):
     )
     password = forms.CharField(
         help_text='Basic auth password.',
-        required=False
+        required=False,
     )
     text_match = forms.CharField(
         help_text='Regex to match against source of page.',
-        required=False
+        required=False,
     )
     status_code = forms.CharField(
         initial=200,
-        help_text='Status code expected from endpoint.'
+        help_text='Status code expected from endpoint.',
+        required=False,
     )
     timeout = forms.IntegerField(
         initial=30,
         help_text='Time out after this many seconds.',
+        required=False,
     )
     verify_ssl_certificate = forms.BooleanField(
         initial=True,
         help_text='Set to false to allow not try to verify ssl certificates (default True)',
+        required=False,
     )
 
     class Meta:
@@ -71,7 +73,7 @@ class HttpStatusCheckForm(forms.Form):
 
 class HttpStatusCheckPlugin(StatusCheckPlugin):
     name = "HTTP Status"
-    slug = "http_status"
+    slug = "cabot_check_http"
     author = "Jonathan Balls"
     version = "0.0.1"
     font_icon = "glyphicon glyphicon-arrow-up"

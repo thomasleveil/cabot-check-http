@@ -1,4 +1,4 @@
 *.pyc
 dist/
-cabot_alert_http.egg-info/
+cabot_check_http.egg-info/
 *.sw?
