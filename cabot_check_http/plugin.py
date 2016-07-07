@@ -80,6 +80,10 @@ class HttpStatusCheckPlugin(StatusCheckPlugin):
 
     config_form = HttpStatusCheckForm
 
+    plugin_variables = [
+        'HTTP_USER_AGENT',
+    ]
+
     def run(self, check, result):
 
         auth = None
