@@ -123,5 +123,5 @@ class HttpStatusCheckPlugin(StatusCheckPlugin):
         if check.endpoint:
             return 'Status Code {} from {}'.format(check.status_code, check.endpoint)
         else:
-            return 'ICMP Check with no target.'
+            return 'HTTP Check with no target.'
 
