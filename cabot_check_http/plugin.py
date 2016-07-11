@@ -18,23 +18,41 @@ class HttpStatusCheckForm(forms.Form):
     # HTTP checks
     endpoint = forms.CharField(
         help_text='HTTP(S) endpoint to poll.',
+        widget = forms.TextInput(attrs={
+                'style': 'width: 100%',
+                'placeholder': 'https://www.arachnys.com',
+            }),
     )
     username = forms.CharField(
         help_text='Basic auth username.',
-        required=False
+        required=False,
+        widget = forms.TextInput(attrs={
+            'style': 'width: 30%',
+            }),
     )
     password = forms.CharField(
         help_text='Basic auth password.',
         required=False,
+        widget = forms.TextInput(attrs={
+            'style': 'width: 30%',
+            }),
     )
     text_match = forms.CharField(
         help_text='Regex to match against source of page.',
         required=False,
+        widget = forms.TextInput(attrs={
+            'style': 'width: 100%',
+            'placeholder': '[Aa]rachnys\s+[Rr]ules',
+            }),
     )
     status_code = forms.CharField(
         initial=200,
         help_text='Status code expected from endpoint.',
         required=False,
+        widget = forms.TextInput(attrs={
+            'style': 'width: 20%',
+            'placeholder': '200',
+            }),
     )
     timeout = forms.IntegerField(
         initial=30,
@@ -46,29 +64,6 @@ class HttpStatusCheckForm(forms.Form):
         help_text='Set to false to allow not try to verify ssl certificates (default True)',
         required=False,
     )
-
-    class Meta:
-
-        widgets = {
-            'endpoint': forms.TextInput(attrs={
-                'style': 'width: 100%',
-                'placeholder': 'https://www.arachnys.com',
-            }),
-            'username': forms.TextInput(attrs={
-                'style': 'width: 30%',
-            }),
-            'password': forms.PasswordInput(attrs={
-                'style': 'width: 30%',
-            }),
-            'text_match': forms.TextInput(attrs={
-                'style': 'width: 100%',
-                'placeholder': '[Aa]rachnys\s+[Rr]ules',
-            }),
-            'status_code': forms.TextInput(attrs={
-                'style': 'width: 20%',
-                'placeholder': '200',
-            }),
-        }
 
 
 class HttpStatusCheckPlugin(StatusCheckPlugin):
