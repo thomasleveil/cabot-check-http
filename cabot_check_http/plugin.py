@@ -7,7 +7,7 @@ from django.template import Context, Template
 from cabot.plugins.models import StatusCheckPlugin
 from cabot.cabotapp.models import StatusCheckResult
 
-from os import environ as env
+from os import environ as env, environ
 import re
 import subprocess
 import requests
@@ -70,7 +70,7 @@ class HttpStatusCheckPlugin(StatusCheckPlugin):
     name = "HTTP Status"
     slug = "cabot_check_http"
     author = "Jonathan Balls"
-    version = "0.0.1"
+    version = "0.1.0"
     font_icon = "glyphicon glyphicon-arrow-up"
 
     config_form = HttpStatusCheckForm
@@ -89,7 +89,7 @@ class HttpStatusCheckPlugin(StatusCheckPlugin):
             resp = requests.get(
                 check.endpoint,
                 timeout=check.timeout,
-                verify=check.verify_ssl_certificate,
+                verify=check.verify_ssl_certificate and environ.get('CABOT_CHECK_HTTP_CA_BUNDLE', True),
                 auth=auth,
                 headers={
                     "User-Agent": settings.HTTP_USER_AGENT,
