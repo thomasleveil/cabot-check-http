@@ -12,10 +12,12 @@ import os
 from logging import getLogger
 logger = getLogger(__name__)
 
+
 def get_content(fname):
     path = os.path.join(os.path.dirname(__file__), 'fixtures/%s' % fname)
     with open(path) as f:
         return f.read()
+
 
 def fake_http_200_response(*args, **kwargs):
     resp = Mock()
@@ -23,11 +25,13 @@ def fake_http_200_response(*args, **kwargs):
     resp.status_code = 200
     return resp
 
+
 def fake_http_404_response(*args, **kwargs):
     resp = Mock()
     resp.content = get_content('http_response.html')
     resp.status_code = 404
     return resp
+
 
 class TestHttpStatusCheckPlugin(LocalTestCase):
 
@@ -35,22 +39,22 @@ class TestHttpStatusCheckPlugin(LocalTestCase):
         super(TestHttpStatusCheckPlugin, self).setUp()
 
         self.http_check_model, created = StatusCheckPluginModel.objects.get_or_create(
-	    slug='cabot_check_http'
-	    )
+            slug='cabot_check_http'
+        )
 
         self.http_check = StatusCheck.objects.create(
-	    check_plugin=self.http_check_model,
-	    name = 'Http Check',
-	    created_by=self.user,
-	    importance=Service.CRITICAL_STATUS,
-	    endpoint='https://arachnys.com',
-	    timeout=10,
-	    status_code='200',
-	    text_match=None,
-	    )
+            check_plugin=self.http_check_model,
+            name='Http Check',
+            created_by=self.user,
+            importance=Service.CRITICAL_STATUS,
+            endpoint='https://arachnys.com',
+            timeout=10,
+            status_code='200',
+            text_match=None,
+        )
         self.http_check.save()
         self.http_check = StatusCheck.objects.get(pk=self.http_check.pk)
-	self.service.status_checks.add(self.http_check)
+        self.service.status_checks.add(self.http_check)
 
     @patch('cabot.cabotapp.models.requests.get', fake_http_200_response)
     def test_run_success(self):
@@ -64,7 +68,6 @@ class TestHttpStatusCheckPlugin(LocalTestCase):
 
     @patch('cabot.cabotapp.models.requests.get', fake_http_200_response)
     def test_test_matching(self):
-	
         # Text matching
         self.http_check.text_match = u'Arachnys'
         self.http_check.save()
@@ -73,7 +76,7 @@ class TestHttpStatusCheckPlugin(LocalTestCase):
         self.assertEqual(self.http_check.calculated_status,
                          Service.CALCULATED_PASSING_STATUS)
 
-	# Text matching
+        # Text matching
         self.http_check.text_match = u'blah blah'
         self.http_check.save()
         self.http_check.run()
@@ -98,4 +101,3 @@ class TestHttpStatusCheckPlugin(LocalTestCase):
         self.assertFalse(self.http_check.last_result().succeeded)
         self.assertEqual(self.http_check.calculated_status,
                          Service.CALCULATED_FAILING_STATUS)
-

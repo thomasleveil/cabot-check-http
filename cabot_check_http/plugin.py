@@ -85,15 +85,15 @@ class HttpStatusCheckPlugin(StatusCheckPlugin):
         if check.username or check.password:
             auth = (check.username, check.password)
 
-	try:
-	    resp = requests.get(
-		check.endpoint,
-		timeout=check.timeout,
-		verify=check.verify_ssl_certificate,
-		auth=auth,
-		headers={
-		    "User-Agent": settings.HTTP_USER_AGENT,
-		})
+        try:
+            resp = requests.get(
+                check.endpoint,
+                timeout=check.timeout,
+                verify=check.verify_ssl_certificate,
+                auth=auth,
+                headers={
+                    "User-Agent": settings.HTTP_USER_AGENT,
+                })
         except requests.RequestException as e:
             result.error = u'Request error occurred: %s' % (e.message,)
             result.succeeded = False
